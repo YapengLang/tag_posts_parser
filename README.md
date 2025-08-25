@@ -2,7 +2,7 @@
 
 This is a parser to parse students posts of Theoritical Application Genetics in ANU-Shandong University joint colleage. This project powered by [private Piazza api](https://github.com/hfaran/piazza-api).
 
-**Install**
+# **Install**
 
 In terminal
 
@@ -24,7 +24,7 @@ pytest
 
 we expect all tests passed 🟢🟢🟢🟢🟢
 
-**Use**
+# **Use**
 
 In terminal, run
 ```bash
@@ -48,7 +48,7 @@ Deadline for folder cq-lm5: <TYPE YOUR TIME OR ENTER>
 ...
 ```
 
-*IMPORTANT:* the deadline you provide should be in format YYYY-MM-DD-HH. HH is in 24 hr. 2025-08-09-17 is the same as 2025-8-9-17. If you press enter instead of typing deadline, we will skip the statistic for that learning module (folder).
+**IMPORTANT:** the deadline you provide should be in format YYYY-MM-DD-HH. HH is in 24 hr. 2025-08-09-17 is the same as 2025-8-9-17. If you press enter instead of typing deadline, we will skip the statistic for that learning module (folder).
 
 Finally, define the output folder:
 
@@ -62,6 +62,6 @@ Then you will get your output in ~/Desktop/summary.csv
 Yay!
 
 
-**License**  
+# **License**  
 This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).  
 Commercial use of this code or its derivatives is **not permitted**.
