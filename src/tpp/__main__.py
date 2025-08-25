@@ -79,7 +79,7 @@ def write_summary_to_csv(summary, cutoff, filename=...):
         k + "deadline:" + str(cutoff[k]) for k in cutoff_keys
     ]
 
-    with open(filename, "w", newline="") as f:
+    with open(filename, "x", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(header)
         for internal_id, info in summary.items():
@@ -126,7 +126,7 @@ def main():
     ).strip()
 
     tpp.write_summary_to_csv(summary, cutoff, filename=output_folder + "/summary.csv")
-    with open(output_folder + "log.json", "w") as f:
+    with open(output_folder + "log.json", "x") as f:
         json.dump(raw_feeds, f, indent=4)
 
 
