@@ -7,7 +7,7 @@ from datetime import datetime
 
 from piazza_api import Piazza
 
-from src.tpp import __main__ as tpp
+from tpp import __main__ as tpp
 
 
 def _id_to_email(all_users: list) -> dict:
@@ -38,7 +38,8 @@ def _sort_feeds(feeds: list) -> dict:
             folder = f["folders"][0]
             if folder not in feeds_by_folder:
                 feeds_by_folder[folder] = f["log"]
-            feeds_by_folder[folder].extend(f["log"])
+            else:
+                feeds_by_folder[folder].extend(f["log"])
     return feeds_by_folder
 
 
@@ -107,7 +108,9 @@ def main():
     course = piazza.network(network_id)
 
     id_to_email = tpp._id_to_email(course.get_all_users())
-    feeds = tpp._sort_feeds(course.get_feed()["feed"])
+
+    raw_feeds = course.get_feed()["feed"]
+    feeds = tpp._sort_feeds(raw_feeds)
 
     cutoff = {}
     print(
@@ -119,10 +122,14 @@ def main():
             cutoff[k] = tpp._format_timestamp(get)
 
     summary = tpp._summarise_feeds(feeds, id_to_email, cutoff)
+
     output_folder = input(
         "What is the folder you want to write the summary csv to?"
     ).strip()
+
     tpp.write_summary_to_csv(summary, cutoff, filename=output_folder + "/summary.csv")
+    with open(output_folder + "log.json", "w") as f:
+        json.dump(raw_feeds, f, indent=4)
 
 
 if __name__ == "__main__":
