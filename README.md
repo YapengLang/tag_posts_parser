@@ -56,8 +56,8 @@ Finally, define the output folder:
 What is the folder you want to write the summary csv to? <TYPE YOUR OUT FOLDER PATH>
 ```
 
-I just try ~/Desktop/. Should be good!
-Then you will get your output in ~/Desktop/summary.csv 
+I just try Users/myname/Desktop Should be good!
+Then you will get your output in Users/myname/Desktop/summary.csv 
 
 Yay!
 
