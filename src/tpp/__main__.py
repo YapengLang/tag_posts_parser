@@ -1,5 +1,13 @@
+import csv
+import json
+import os
+
 from collections import Counter
 from datetime import datetime
+
+from piazza_api import Piazza
+
+from src.tpp import __main__ as tpp
 
 
 def _id_to_email(all_users: list) -> dict:
@@ -63,13 +71,10 @@ def _summarise_feeds(feeds: dict, id_email_map: dict, cutoff: dict) -> list:
     return student_activities
 
 
-import csv
-
-
 def write_summary_to_csv(summary, cutoff, filename=...):
     # Get all cutoff keys from the first record
     cutoff_keys = [
-        k + "deadline:" + str(k[cutoff])
+        k + "deadline:" + str(cutoff[k])
         for k in summary[next(iter(summary))]
         if k != "email"
     ]
@@ -85,12 +90,42 @@ def write_summary_to_csv(summary, cutoff, filename=...):
             writer.writerow(row)
 
 
-# def main():
-#     """ask user provide cutoff date, and which folder to parse"""
-#     piazza.user_login()
-#     network_id = input("Input your course's Piazza network ID: ").strip()
-#     course = piazza.network(network_id)
+def main():
+    """ask user provide cutoff date, and which folder to parse"""
+
+    if os.path.exists(
+        "/Users/yapenglang/repos/tag_posts_parser/credentials/credentials.json"
+    ):
+        with open(
+            "/Users/yapenglang/repos/tag_posts_parser/credentials/credentials.json"
+        ) as f:
+            credentials = json.load(f)
+            EMAIL = credentials.get("email", None)
+            PASSWORD = credentials.get("password", None)
+
+    piazza = Piazza()
+    piazza.user_login(email=EMAIL, password=PASSWORD)
+    network_id = input("Your course's Piazza network ID: ").strip()
+    course = piazza.network(network_id)
+
+    id_to_email = tpp._id_to_email(course.get_all_users())
+    feeds = tpp._sort_feeds(course.get_feed()["feed"])
+
+    cutoff = {}
+    print(
+        "Please provide deadline for each folder in format 2025-8-10-17, or press Enter to skip:"
+    )
+    for k in feeds.keys():
+        get = input(f"Deadline for folder {k}: ").strip()
+        if get:
+            cutoff[k] = tpp._format_timestamp(get)
+
+    summary = tpp._summarise_feeds(feeds, id_to_email, cutoff)
+    output_folder = input(
+        "What is the folder you want to write the summary csv to?"
+    ).strip()
+    tpp.write_summary_to_csv(summary, cutoff, filename=output_folder + "/summary.csv")
 
 
-#     course = piazza.network(network_id)
-#     course = piazza.network(network_id)
+if __name__ == "__main__":
+    main()
