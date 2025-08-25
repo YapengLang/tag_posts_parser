@@ -1,7 +1,6 @@
 import csv
 import json
 import os
-
 from collections import Counter
 from datetime import datetime
 
@@ -122,11 +121,11 @@ def main():
     summary = tpp._summarise_feeds(feeds, id_to_email, cutoff)
 
     output_folder = input(
-        "What is the folder you want to write the summary csv to?"
+        "What is the folder you want to write the summary csv to:"
     ).strip()
 
     tpp.write_summary_to_csv(summary, cutoff, filename=output_folder + "/summary.csv")
-    with open(output_folder + "log.json", "x") as f:
+    with open(output_folder + "/log.json", "x") as f:
         json.dump(raw_feeds, f, indent=4)
 
 
