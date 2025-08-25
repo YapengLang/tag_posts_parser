@@ -73,12 +73,10 @@ def _summarise_feeds(feeds: dict, id_email_map: dict, cutoff: dict) -> list:
 
 def write_summary_to_csv(summary, cutoff, filename=...):
     # Get all cutoff keys from the first record
-    cutoff_keys = [
-        k + "deadline:" + str(cutoff[k])
-        for k in summary[next(iter(summary))]
-        if k != "email"
+    cutoff_keys = [k for k in summary[next(iter(summary))] if k != "email"]
+    header = ["internal id", "email"] + [
+        k + "deadline:" + str(cutoff[k]) for k in cutoff_keys
     ]
-    header = ["internal id", "email"] + cutoff_keys
 
     with open(filename, "w", newline="") as f:
         writer = csv.writer(f)
