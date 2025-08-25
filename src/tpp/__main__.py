@@ -91,19 +91,17 @@ def write_summary_to_csv(summary, cutoff, filename=...):
 
 def main():
     """ask user provide cutoff date, and which folder to parse"""
-
-    if os.path.exists(
-        "/Users/yapenglang/repos/tag_posts_parser/credentials/credentials.json"
-    ):
-        with open(
-            "/Users/yapenglang/repos/tag_posts_parser/credentials/credentials.json"
-        ) as f:
+    piazza = Piazza()
+    if os.path.exists("tag_posts_parser/credentials/credentials.json"):
+        with open("tag_posts_parser/credentials/credentials.json") as f:
             credentials = json.load(f)
             EMAIL = credentials.get("email", None)
             PASSWORD = credentials.get("password", None)
+            piazza.user_login(email=EMAIL, password=PASSWORD)
 
-    piazza = Piazza()
-    piazza.user_login(email=EMAIL, password=PASSWORD)
+    else:
+        piazza.user_login()
+
     network_id = input("Your course's Piazza network ID: ").strip()
     course = piazza.network(network_id)
 
