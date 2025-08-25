@@ -14,7 +14,7 @@ requires-python = ">=3.11,<3.14"
 dependencies = ["piazza_api"]
 classifiers = [
         "Development Status :: 2 - Pre-Alpha",
-        "Intended Audience :: teaching",
+        "Intended Audience :: Education",
         "License :: OSI Approved :: BSD License",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Operating System :: OS Independent",
