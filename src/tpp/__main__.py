@@ -120,9 +120,11 @@ def main():
 
     summary = tpp._summarise_feeds(feeds, id_to_email, cutoff)
 
-    output_folder = input(
-        "What is the folder you want to write the summary csv to:"
-    ).strip()
+    output_folder = (
+        input("What is the folder you want to write the summary csv to:")
+        .strip()
+        .rstrip("/")
+    )
 
     tpp.write_summary_to_csv(summary, cutoff, filename=output_folder + "/summary.csv")
     with open(output_folder + "/log.json", "x") as f:
